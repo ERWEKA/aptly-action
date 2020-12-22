@@ -1,0 +1,24 @@
+# action.yml
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs:
+  repo-name:  # id of input
+    description: 'repository name of pushing'
+    required: true
+  build-version:
+    description: 'build version'
+    required: true
+    default: 1.0.0
+runs:
+  using: 'docker'
+  image: 'registry.dev.erweka.com/aptly:1.0.0'
+  env:
+     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+     BUILD_VERSION: ${{ needs.checkout.outputs.build_version }}
+  args:
+    - "-f"
+    - ${{ secrets.APTLY_GPG_PRIVATE_KEY }}
+    - ./aptly.sh
+    - ${{ inputs.repo-name }}
+    - ${{ inputs.build-version }}
