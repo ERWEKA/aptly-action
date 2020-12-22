@@ -1,6 +1,6 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'aptly action'
+description: 'publish with aptly to minio'
 inputs:
   repo-name:  # id of input
     description: 'repository name of pushing'
