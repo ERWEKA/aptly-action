@@ -26,7 +26,7 @@ runs:
      AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret }}
      BUILD_VERSION: ${{ inputs.build-version }}
      REPO_NAME: ${{ inputs.repo-name }}
-  args:
-    - "-f"
-    - ${{ inputs.gpg-key }}
-    - ./aptly.sh
+#  args:
+#    - "-f"
+#    - ${{ inputs.gpg-key }}
+#    - ./aptly.sh
