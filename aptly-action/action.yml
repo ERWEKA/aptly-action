@@ -20,13 +20,13 @@ inputs:
     default: 1.0.0
 runs:
   using: 'docker'
-  image: 'dockerfile'
+  image: 'Dockerfile'
   env:
      AWS_ACCESS_KEY_ID: ${{ inputs.aws-id }}
      AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret }}
      BUILD_VERSION: ${{ inputs.build-version }}
      REPO_NAME: ${{ inputs.repo-name }}
-#  args:
-#    - "-f"
-#    - ${{ inputs.gpg-key }}
-#    - ./aptly.sh
+  args:
+    - "-f"
+    - ${{ inputs.gpg-key }}
+    - ./aptly.sh
