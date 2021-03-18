@@ -2,6 +2,15 @@
 name: 'aptly action'
 description: 'publish with aptly to minio'
 inputs:
+  aws-id:
+    description: 'id for publish aptly'
+    required: true
+  aws-secret:
+    description: 'secret for aws'
+    required: true
+  gpg-key:
+    description: 'gpg key for debian repo'
+    required: true
   repo-name:  # id of input
     description: 'repository name of pushing'
     required: true
@@ -13,12 +22,11 @@ runs:
   using: 'docker'
   image: 'registry.dev.erweka.com/aptly:1.0.0'
   env:
-     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-     BUILD_VERSION: ${{ needs.checkout.outputs.build_version }}
+     AWS_ACCESS_KEY_ID: ${{ inputs.aws-id }}
+     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret }}
+     BUILD_VERSION: ${{ inputs.build-version }}
+     REPO_NAME: ${{ inputs.repo-name }}
   args:
     - "-f"
-    - ${{ secrets.APTLY_GPG_PRIVATE_KEY }}
+    - ${{ inputs.gpg-key }}
     - ./aptly.sh
-    - ${{ inputs.repo-name }}
-    - ${{ inputs.build-version }}
