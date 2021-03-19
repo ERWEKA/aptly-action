@@ -20,7 +20,7 @@ inputs:
     default: 1.0.0
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://registry.dev.erweka.com/aptly:1.0.0'
   env:
      AWS_ACCESS_KEY_ID: ${{ inputs.aws-id }}
      AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret }}
