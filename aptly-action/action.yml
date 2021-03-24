@@ -27,7 +27,5 @@ runs:
      BUILD_VERSION: ${{ inputs.build-version }}
      REPO_NAME: ${{ inputs.repo-name }}
   args:
-    - "-v ${GITHUB_WORKSPACE}/_ci/aptly.sh:/home/aptly/aptly.sh"
-    - "-v ${GITHUB_WORKSPACE}/build:/home/aptly/deb-package"
     - "-f ${{ inputs.gpg-key }}"
     - ./aptly.sh
