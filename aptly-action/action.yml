@@ -27,5 +27,6 @@ runs:
      BUILD_VERSION: ${{ inputs.build-version }}
      REPO_NAME: ${{ inputs.repo-name }}
   args:
-    - "-f ${{ inputs.gpg-key }}"
+    - "-f"
+    - ${{ inputs.gpg-key }}
     - ./aptly.sh
