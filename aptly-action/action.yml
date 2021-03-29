@@ -29,5 +29,6 @@ runs:
   args:
     - "-f"
     - ${{ inputs.gpg-key }}
-  pre-entrypoint: '/home/github/entrypoint.sh'
-  entrypoint: '/home/github/aptly.sh'
+    - '/home/github/aptly.sh'
+ # pre-entrypoint: '/home/github/entrypoint.sh'
+ # entrypoint: '/home/github/aptly.sh'
