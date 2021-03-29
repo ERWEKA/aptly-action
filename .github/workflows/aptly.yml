@@ -1,0 +1,32 @@
+name: Aptly docker image generation
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: build image
+      run: |
+        docker build \
+          -t registry.dev.erweka.com/aptly:1.0.0 \
+          .
+
+    - name: Docker login
+      env:
+        DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      uses: azure/docker-login@v1
+      with:
+        login-server: registry.dev.erweka.com
+        username: erweka
+        password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+
+    - name: push to registry
+      run: |
+        docker push registry.dev.erweka.com/aptly:1.0.0
