@@ -31,7 +31,7 @@ RUN mkdir /usr/local/share/ca-certificates/extra \
 COPY .aptly.conf /home/github/.aptly.conf
 COPY gpg_public.key /home/github/gpg_public.key
 COPY entrypoint.sh /home/github/entrypoint.sh
-COPY aptly-action /home/workspace/aptly.sh
+COPY aptly-action /home/github/aptly.sh
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
 CMD ["aptly"]
