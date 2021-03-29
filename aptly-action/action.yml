@@ -29,4 +29,6 @@ runs:
   args:
     - "-f"
     - ${{ inputs.gpg-key }}
-  entrypoint: 'aptly-action/aptly.sh'
+    - ./aptly.sh
+  pre-entrypoint: 'entrypoint.sh'
+  entrypoint: 'aptly.sh'
