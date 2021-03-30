@@ -1,26 +1,27 @@
 #!/bin/bash
 set -eux -o pipefail
 
-aptly mirror drop -force erweka-mirror || true
-aptly snapshot drop erweka-snapshot || true
-aptly repo drop erweka-"${REPO_NAME}" || true
-aptly snapshot drop erweka-snapshot-"${REPO_NAME}" || true
+aptly mirror drop -force aptly-mirror || true
+aptly snapshot drop aptly-snapshot || true
+aptly repo drop aptly-"${REPO_NAME}" || true
+aptly snapshot drop aptly-snapshot-"${REPO_NAME}" || true
 
-if aptly mirror create -ignore-signatures erweka-mirror "${TARGET_URL}"/"${TARGET_BUCKET}" bionic main ;
+if aptly mirror create -ignore-signatures aptly-mirror "${TARGET_URL}"/"${TARGET_BUCKET}" bionic main ;
 then
-  aptly mirror update -ignore-signatures erweka-mirror
-  aptly snapshot create erweka-snapshot from mirror erweka-mirror
-  aptly snapshot show -with-packages erweka-snapshot
+  aptly mirror update -ignore-signatures aptly-mirror
+  aptly snapshot create aptly-snapshot from mirror aptly-mirror
+  aptly snapshot show -with-packages aptly-snapshot
 
-  aptly repo create -distribution=bionic -component=main erweka-"${REPO_NAME}"
-  aptly repo add erweka-"${REPO_NAME}" deb-package
-  aptly snapshot create erweka-snapshot-"${REPO_NAME}" from repo erweka-"${REPO_NAME}"
+  aptly repo create -distribution=bionic -component=main aptly-"${REPO_NAME}"
+  aptly repo add aptly-"${REPO_NAME}" "${DEB_FOLDER}"
+  aptly snapshot create aptly-snapshot-"${REPO_NAME}" from repo aptly-"${REPO_NAME}"
 
-  aptly snapshot merge -no-remove erweka-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}" erweka-snapshot erweka-snapshot-"${REPO_NAME}"
-  aptly snapshot show -with-packages erweka-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}"
-  aptly publish snapshot -force-overwrite -batch erweka-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}" s3:erweka.repo:
+  aptly snapshot merge -no-remove aptly-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}" aptly-snapshot aptly-snapshot-"${REPO_NAME}"
+  aptly snapshot show -with-packages aptly-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}"
+  aptly publish snapshot -force-overwrite -batch aptly-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}" s3:${APTLY_TARGET}:
 else
-  aptly repo create -distribution=bionic -component=main erweka-deb
-  aptly repo add erweka-deb deb-package
-  aptly publish repo -batch erweka-deb s3:erweka.repo:
+  aptly repo create -distribution=bionic -component=main aptly-deb
+  aptly repo add aptly-deb "${DEB_FOLDER}"
+  aptly publish repo -batch aptly-deb s3:${APTLY_TARGET}:
 fi
+

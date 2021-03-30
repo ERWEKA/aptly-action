@@ -27,6 +27,9 @@ inputs:
   aptly_target:
     description: 'target for aptly.conf there are the configured buckets to push to'
     required: true
+  deb_folder:
+    description: 'location where the debian packages are located'
+    required: true
 runs:
   using: 'docker'
   image: 'docker://ewadocker90/aptly:aptly'
@@ -38,6 +41,7 @@ runs:
      TARGET_URL: ${{ inputs.target_url }}
      TARGET_BUCKET: ${{ inputs.target_bucket }}
      APTLY_TARGET: ${{ inputs.aptly_target }}
+     DEB_FOLDER: ${{ inputs.deb_folder }}
   args:
     - "-f"
     - ${{ inputs.gpg_key }}
