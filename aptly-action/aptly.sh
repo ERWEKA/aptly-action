@@ -1,10 +1,16 @@
 #!/bin/bash
 set -eux -o pipefail
 
-if aptly mirror create -ignore-signatures erweka-mirror https://minio.dev.erweka.com/repo.erweka.info bionic main ;
+aptly mirror drop -force erweka-mirror || true
+aptly snapshot drop erweka-snapshot || true
+aptly repo drop erweka-"${REPO_NAME}" || true
+aptly snapshot drop erweka-snapshot-"${REPO_NAME}" || true
+
+if aptly mirror create -ignore-signatures erweka-mirror "${TARGET_URL}"/"${TARGET_BUCKET}" bionic main ;
 then
   aptly mirror update -ignore-signatures erweka-mirror
   aptly snapshot create erweka-snapshot from mirror erweka-mirror
+  aptly snapshot show -with-packages erweka-snapshot
 
   aptly repo create -distribution=bionic -component=main erweka-"${REPO_NAME}"
   aptly repo add erweka-"${REPO_NAME}" deb-package

@@ -1,9 +1,9 @@
 FROM ubuntu:20.04
 LABEL do-not-remove=""
 
-#RUN useradd -m -r -u 1001 github
-WORKDIR /home/github
-#RUN chown 1001:1001 /home/github
+#RUN useradd -m -r -u 999 github
+#WORKDIR /home/github
+#RUN chown 999:998 /home/github
 
 
 RUN apt-get update \

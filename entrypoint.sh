@@ -34,5 +34,7 @@ echo $UID $HOME
 gpg --allow-secret-key-import --import /home/github/gpg_private.key
 gpg --import /home/github/gpg_public.key
 printenv
+cp /home/github/.aptly.conf /github/home/.aptly.conf
+cat /github/home/.aptly.conf
 
 exec "$@"

@@ -2,33 +2,45 @@
 name: 'aptly action'
 description: 'publish with aptly to minio'
 inputs:
-  aws-id:
+  aws_id:
     description: 'id for publish aptly'
     required: true
-  aws-secret:
+  aws_secret:
     description: 'secret for aws'
     required: true
-  gpg-key:
+  gpg_key:
     description: 'gpg key for debian repo'
     required: true
-  repo-name:  # id of input
+  repo_name:  # id of input
     description: 'repository name of pushing'
     required: true
-  build-version:
+  build_version:
     description: 'build version'
     required: true
     default: 1.0.0
+  target_url:
+    description: 's3 target bucket'
+    required: true
+  target_bucket:
+    description: 'target bucket'
+    required: true
+  aptly_target:
+    description: 'target for aptly.conf there are the configured buckets to push to'
+    required: true
 runs:
   using: 'docker'
   image: 'docker://ewadocker90/aptly:aptly'
   env:
-     AWS_ACCESS_KEY_ID: ${{ inputs.aws-id }}
-     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret }}
-     BUILD_VERSION: ${{ inputs.build-version }}
-     REPO_NAME: ${{ inputs.repo-name }}
+     AWS_ACCESS_KEY_ID: ${{ inputs.aws_id }}
+     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret }}
+     BUILD_VERSION: ${{ inputs.build_version }}
+     REPO_NAME: ${{ inputs.repo_name }}
+     TARGET_URL: ${{ inputs.target_url }}
+     TARGET_BUCKET: ${{ inputs.target_bucket }}
+     APTLY_TARGET: ${{ inputs.aptly_target }}
   args:
     - "-f"
-    - ${{ inputs.gpg-key }}
+    - ${{ inputs.gpg_key }}
     - '/home/github/aptly.sh'
  # pre-entrypoint: '/home/github/entrypoint.sh'
  # entrypoint: '/home/github/aptly.sh'
