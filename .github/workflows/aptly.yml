@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - feature/*
 
 jobs:
   build:
@@ -15,18 +16,10 @@ jobs:
     - name: build image
       run: |
         docker build \
-          -t registry.dev.erweka.com/aptly:1.0.0 \
+          -t ghcr.io/ERWEKA/aptly:1.1.0 \
           .
-
-    - name: Docker login
-      env:
-        DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-      uses: azure/docker-login@v1
-      with:
-        login-server: registry.dev.erweka.com
-        username: erweka
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
 
     - name: push to registry
       run: |
-        docker push registry.dev.erweka.com/aptly:1.0.0
+        echo ${{ secrets.REGISTRY_DOCKER_GITHUB }} | docker login ghcr.io -u erweka --password-stdin
+        docker push ghcr.io/ERWEKA/aptly:1.1.0

@@ -38,7 +38,7 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: 'docker://ewadocker90/aptly:aptly'
+  image: 'docker://ghcr.io/ERWEKA/aptly:1.1.0'
   env:
      AWS_ACCESS_KEY_ID: ${{ inputs.aws_id }}
      AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret }}
@@ -54,5 +54,4 @@ runs:
     - "-f"
     - ${{ inputs.gpg_key }}
     - '/home/github/aptly.sh'
- # pre-entrypoint: '/home/github/entrypoint.sh'
- # entrypoint: '/home/github/aptly.sh'
+

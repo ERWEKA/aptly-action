@@ -1,13 +1,8 @@
 #!/bin/bash
 set -eux -o pipefail
 
-aptly version
-aptly config show
-aptly mirror drop -force aptly-mirror || true
-aptly snapshot drop -force aptly-snapshot || true
-aptly repo drop -force aptly-"${REPO_NAME}" || true
-aptly snapshot drop -force aptly-snapshot-"${REPO_NAME}" || true
-aptly snapshot drop -force aptly-snapshot-"${REPO_NAME}"-merged-"${BUILD_VERSION}" || true
+
+rm -r "${HOME}"/.aptly/* || true
 
 if aptly mirror create -ignore-signatures aptly-mirror https://"${TARGET_URL}"/"${TARGET_BUCKET}" bionic main ;
 then

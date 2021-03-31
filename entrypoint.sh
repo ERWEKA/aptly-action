@@ -36,14 +36,10 @@ then
     base64 --decode /home/github/Root_CA_64.crt > /home/github/Company_Root_CA_X1.crt
 
     mkdir /usr/local/share/ca-certificates/extra \
-    && cp /home/github/Company_Root_CA_X1 /usr/local/share/ca-certificates/extra/Company_Root_CA_X1.crt \
+    && cp /home/github/Company_Root_CA_X1.crt /usr/local/share/ca-certificates/extra/Company_Root_CA_X1.crt \
     && update-ca-certificates
 fi
 
-cat /home/github/gpg_private.key
-cat /home/github/gpg_public.key
-whoami
-echo $UID $HOME
 gpg --allow-secret-key-import --import /home/github/gpg_private.key
 gpg --import /home/github/gpg_public.key
 printenv
