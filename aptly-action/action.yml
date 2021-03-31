@@ -9,7 +9,10 @@ inputs:
     description: 'secret for aws'
     required: true
   gpg_key:
-    description: 'gpg key for debian repo'
+    description: 'gpg private key for debian repo'
+    required: true
+  gpg_public_key:
+    description: 'gpg public key'
     required: true
   repo_name:  # id of input
     description: 'repository name of pushing'
@@ -30,6 +33,9 @@ inputs:
   deb_folder:
     description: 'location where the debian packages are located'
     required: true
+  root_ca:
+    description: 'company root ca'
+    required: false
 runs:
   using: 'docker'
   image: 'docker://ewadocker90/aptly:aptly'
@@ -42,6 +48,8 @@ runs:
      TARGET_BUCKET: ${{ inputs.target_bucket }}
      APTLY_TARGET: ${{ inputs.aptly_target }}
      DEB_FOLDER: ${{ inputs.deb_folder }}
+     GPG_PUBLIC_KEY: ${{ inputs.gpg_public_key }}
+     ROOT_CA: ${{ inputs.root_ca }}
   args:
     - "-f"
     - ${{ inputs.gpg_key }}

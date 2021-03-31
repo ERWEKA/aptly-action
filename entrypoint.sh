@@ -27,6 +27,19 @@ eval set -- "$PARAMS"
 echo $GPG_PRIVATE_KEY | tr "|" "\n" > /home/github/private64.key
 base64 --decode /home/github/private64.key > /home/github/gpg_private.key
 
+echo $GPG_PUBLIC_KEY | tr "|" "\n" > /home/github/public64.key
+base64 --decode /home/github/public64.key > /home/github/gpg_public.key
+
+if [ ! -z "$ROOT_CA" ]
+then
+    echo $ROOT_CA | tr "|" "\n" > /home/github/Root_CA_64.crt
+    base64 --decode /home/github/Root_CA_64.crt > /home/github/Company_Root_CA_X1.crt
+
+    mkdir /usr/local/share/ca-certificates/extra \
+    && cp /home/github/Company_Root_CA_X1 /usr/local/share/ca-certificates/extra/Company_Root_CA_X1.crt \
+    && update-ca-certificates
+fi
+
 cat /home/github/gpg_private.key
 cat /home/github/gpg_public.key
 whoami
@@ -34,7 +47,6 @@ echo $UID $HOME
 gpg --allow-secret-key-import --import /home/github/gpg_private.key
 gpg --import /home/github/gpg_public.key
 printenv
-cp /home/github/.aptly.conf /github/home/.aptly.conf
-cat /github/home/.aptly.conf
+envsubst < /home/github/.aptly.conf > /github/home/.aptly.conf
 
 exec "$@"

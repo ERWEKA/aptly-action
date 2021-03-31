@@ -13,6 +13,7 @@ RUN apt-get update \
 		gnupg2 \
 		ca-certificates \
 		apt-transport-https \
+		gettext \
 	&& rm -r /var/lib/apt/lists/*
 
 RUN wget -qO - https://www.aptly.info/pubkey.txt | apt-key add - \
@@ -22,14 +23,14 @@ RUN apt-get update \
     && apt-get install -y aptly python3-pip \
     && python3 -m pip install awscli
 
-COPY Erweka_Root_CA_X1.crt .
-RUN mkdir /usr/local/share/ca-certificates/extra \
-    && cp Erweka_Root_CA_X1.crt /usr/local/share/ca-certificates/extra/Erweka_Root_CA_X1.crt \
-    && update-ca-certificates
+#COPY Erweka_Root_CA_X1.crt .
+#RUN mkdir /usr/local/share/ca-certificates/extra \
+#    && cp Erweka_Root_CA_X1.crt /usr/local/share/ca-certificates/extra/Erweka_Root_CA_X1.crt \
+#    && update-ca-certificates
 
 #USER github
 COPY .aptly.conf /home/github/.aptly.conf
-COPY gpg_public.key /home/github/gpg_public.key
+#COPY gpg_public.key /home/github/gpg_public.key
 COPY entrypoint.sh /home/github/entrypoint.sh
 COPY aptly-action/aptly.sh /home/github/aptly.sh
 
