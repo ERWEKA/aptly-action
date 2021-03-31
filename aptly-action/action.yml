@@ -38,7 +38,7 @@ inputs:
     required: false
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/ERWEKA/aptly:1.1.0'
+  image: 'docker://ghcr.io/ah0rn/aptly:1.1.0'
   env:
      AWS_ACCESS_KEY_ID: ${{ inputs.aws_id }}
      AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret }}
