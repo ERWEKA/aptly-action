@@ -6,20 +6,25 @@ on:
       - feature/*
 
 jobs:
-  build:
-
+  checkout:
     runs-on: self-hosted
 
     steps:
-    - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
 
-    - name: build image
-      run: |
-        docker build \
-          -t ghcr.io/ERWEKA/aptly:1.1.0 \
-          .
+  build:
+    runs-on: self-hosted
+    needs: checkout
 
-    - name: push to registry
-      run: |
-        echo ${{ secrets.REGISTRY_DOCKER_GITHUB }} | docker login ghcr.io -u erweka --password-stdin
-        docker push ghcr.io/ERWEKA/aptly:1.1.0
+    steps:
+      - name: build image
+        run: |
+          docker build \
+            -t ghcr.io/ERWEKA/aptly:1.1.0 \
+            .
+
+      - name: push to registry
+        run: |
+          echo ${{ secrets.REGISTRY_DOCKER_GITHUB }} | docker login ghcr.io -u erweka --password-stdin
+          docker push ghcr.io/ERWEKA/aptly:1.1.0
