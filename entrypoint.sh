@@ -42,7 +42,7 @@ fi
 
 gpg --allow-secret-key-import --import /home/github/gpg_private.key
 gpg --import /home/github/gpg_public.key
-printenv
+
 envsubst < /home/github/.aptly.conf > /github/home/.aptly.conf
 
 exec "$@"
