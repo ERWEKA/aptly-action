@@ -24,25 +24,25 @@ while (( "$#" )); do
 done
 # set positional arguments in their proper place
 eval set -- "$PARAMS"
-echo $GPG_PRIVATE_KEY | tr "|" "\n" > /home/github/private64.key
-base64 --decode /home/github/private64.key > /home/github/gpg_private.key
+echo $GPG_PRIVATE_KEY | tr "|" "\n" > /private64.key
+base64 --decode /private64.key > /gpg_private.key
 
-echo $GPG_PUBLIC_KEY | tr "|" "\n" > /home/github/public64.key
-base64 --decode /home/github/public64.key > /home/github/gpg_public.key
+echo $GPG_PUBLIC_KEY | tr "|" "\n" > /public64.key
+base64 --decode /public64.key > /gpg_public.key
 
 if [ ! -z "$ROOT_CA" ]
 then
-    echo $ROOT_CA | tr "|" "\n" > /home/github/Root_CA_64.crt
-    base64 --decode /home/github/Root_CA_64.crt > /home/github/Company_Root_CA_X1.crt
+    echo $ROOT_CA | tr "|" "\n" > /Root_CA_64.crt
+    base64 --decode /Root_CA_64.crt > /Company_Root_CA_X1.crt
 
     mkdir /usr/local/share/ca-certificates/extra \
-    && cp /home/github/Company_Root_CA_X1.crt /usr/local/share/ca-certificates/extra/Company_Root_CA_X1.crt \
+    && cp /Company_Root_CA_X1.crt /usr/local/share/ca-certificates/extra/Company_Root_CA_X1.crt \
     && update-ca-certificates
 fi
 
-gpg --allow-secret-key-import --import /home/github/gpg_private.key
-gpg --import /home/github/gpg_public.key
+gpg --allow-secret-key-import --import /gpg_private.key
+gpg --import /gpg_public.key
 
-envsubst < /home/github/.aptly.conf > /github/home/.aptly.conf
+envsubst < /.aptly.conf > /github/home/.aptly.conf
 
 exec "$@"

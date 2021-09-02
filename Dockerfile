@@ -18,9 +18,10 @@ RUN apt-get update \
     && apt-get install -y aptly python3-pip \
     && python3 -m pip install awscli
 
-COPY .aptly.conf /home/github/.aptly.conf
-COPY entrypoint.sh /home/github/entrypoint.sh
-COPY aptly-action/aptly.sh /home/github/aptly.sh
 
-ENTRYPOINT ["/home/github/entrypoint.sh"]
+COPY .aptly.conf /.aptly.conf
+COPY entrypoint.sh /entrypoint.sh
+COPY aptly-action/aptly.sh /aptly.sh
+
+#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["aptly"]

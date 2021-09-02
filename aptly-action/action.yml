@@ -53,5 +53,5 @@ runs:
   args:
     - "-f"
     - ${{ inputs.gpg_key }}
-    - '/home/github/aptly.sh'
+    - '/aptly.sh'
 
