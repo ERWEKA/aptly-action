@@ -23,5 +23,5 @@ COPY .aptly.conf /.aptly.conf
 COPY entrypoint.sh /entrypoint.sh
 COPY aptly-action/aptly.sh /aptly.sh
 
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["aptly"]
