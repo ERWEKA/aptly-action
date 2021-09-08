@@ -1,0 +1,57 @@
+# action.yml
+name: 'aptly action'
+description: 'publish with aptly to minio'
+inputs:
+  aws_id:
+    description: 'id for publish aptly'
+    required: true
+  aws_secret:
+    description: 'secret for aws'
+    required: true
+  gpg_key:
+    description: 'gpg private key for debian repo'
+    required: true
+  gpg_public_key:
+    description: 'gpg public key'
+    required: true
+  repo_name:  # id of input
+    description: 'repository name of pushing'
+    required: true
+  build_version:
+    description: 'build version'
+    required: true
+    default: 1.0.0
+  target_url:
+    description: 's3 target bucket'
+    required: true
+  target_bucket:
+    description: 'target bucket'
+    required: true
+  aptly_target:
+    description: 'target for aptly.conf there are the configured buckets to push to'
+    required: true
+  deb_folder:
+    description: 'location where the debian packages are located'
+    required: true
+  root_ca:
+    description: 'company root ca'
+    required: false
+runs:
+  using: 'docker'
+  image: 'docker://ghcr.io/erweka/aptly:1.1.0'
+  env:
+     AWS_ACCESS_KEY_ID: ${{ inputs.aws_id }}
+     AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret }}
+     BUILD_VERSION: ${{ inputs.build_version }}
+     REPO_NAME: ${{ inputs.repo_name }}
+     TARGET_URL: ${{ inputs.target_url }}
+     TARGET_BUCKET: ${{ inputs.target_bucket }}
+     APTLY_TARGET: ${{ inputs.aptly_target }}
+     DEB_FOLDER: ${{ inputs.deb_folder }}
+     GPG_PUBLIC_KEY: ${{ inputs.gpg_public_key }}
+     ROOT_CA: ${{ inputs.root_ca }}
+  args:
+    - "-f"
+    - ${{ inputs.gpg_key }}
+    - '/aptly.sh'
+

@@ -1,0 +1,27 @@
+FROM ubuntu:20.04
+LABEL do-not-remove=""
+
+RUN apt-get update \
+	&& apt-get -y install software-properties-common \
+		curl \
+		wget \
+		gnupg2 \
+		ca-certificates \
+		apt-transport-https \
+		gettext \
+	&& rm -r /var/lib/apt/lists/*
+
+RUN wget -qO - https://www.aptly.info/pubkey.txt | apt-key add - \
+	&& add-apt-repository "deb http://repo.aptly.info/ squeeze main"
+
+RUN apt-get update \
+    && apt-get install -y aptly python3-pip \
+    && python3 -m pip install awscli
+
+
+COPY .aptly.conf /.aptly.conf
+COPY entrypoint.sh /entrypoint.sh
+COPY aptly-action/aptly.sh /aptly.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["aptly"]
