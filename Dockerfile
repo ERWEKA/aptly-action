@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 LABEL do-not-remove=""
 
 RUN apt-get update \
@@ -15,8 +15,8 @@ RUN wget -qO - https://www.aptly.info/pubkey.txt | apt-key add - \
 	&& add-apt-repository "deb http://repo.aptly.info/ squeeze main"
 
 RUN apt-get update \
-    && apt-get install -y aptly python3-pip \
-    && python3 -m pip install awscli
+  && apt-get install -y aptly \
+  && rm -r /var/lib/apt/lists/*
 
 
 COPY .aptly.conf /.aptly.conf
